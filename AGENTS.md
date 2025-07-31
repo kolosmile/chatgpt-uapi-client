@@ -5,6 +5,9 @@
 Every time the development environment starts up, please run the following command to ensure the API code is available:
 
 ```bash
+echo "$SUBMODULE_SSH_KEY" > /tmp/api_key
+chmod 600 /tmp/api_key
+export GIT_SSH_COMMAND="ssh -i /tmp/api_key -o StrictHostKeyChecking=no"
 git submodule update --init --recursive
 ```
 
