@@ -10,18 +10,15 @@ echo "$SUBMODULE_SSH_KEY" > "$KEY_FILE"
 chmod 600 "$KEY_FILE"
 
 # 2. SSH config bejegyzés
-#   Ha már benne van, ne írjuk duplán
-CONFIG_LINE="IdentityFile $KEY_FILE"
-if ! grep -q "$CONFIG_LINE" "$SSH_DIR/config" 2>/dev/null; then
-  {
-    echo ""
-    echo "Host github.com"
-    echo "    HostName github.com"
-    echo "    User git"
-    echo "    $CONFIG_LINE"
-    echo "    IdentitiesOnly yes"
-  } >> "$SSH_DIR/config"
-fi
+cat >> "$SSH_DIR/config" <<EOF
+
+Host github.com
+    HostName ssh.github.com
+    User git
+    Port 443
+    IdentityFile $KEY_FILE
+    IdentitiesOnly yes
+EOF
 chmod 600 "$SSH_DIR/config"
 
 # 3. Agent-be töltés (ha fut)
