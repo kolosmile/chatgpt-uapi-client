@@ -1,4 +1,31 @@
-"""Python client for the ChatGPT UI API."""
+"""Python client for the ChatGPT UI API.
+
+The module defines :class:`GptClient`, a lightweight wrapper around the REST
+endpoints exposed by the ChatGPT UI automation server. Each method makes an
+HTTP request to the configured server and returns both the parsed JSON payload
+and the time taken for the request.
+
+Supported endpoints
+-------------------
+
+- ``/uia/chat/completions`` – send one or more prompts and receive the
+  corresponding text responses.
+- ``/uia/images/generations`` – generate images via the ChatGPT UI.
+
+Both endpoints accept a list of prompt strings. A ``chat_url`` parameter may be
+supplied to continue an existing conversation. Methods return a tuple of the
+resulting list (``articles`` or ``images``) and the elapsed time in seconds.
+
+Example
+-------
+
+```python
+from gptuapi import GptClient, API_BASE_URL
+
+client = GptClient(API_BASE_URL)
+messages, duration = client.chat_completions(["Hello!"])
+```
+"""
 
 from typing import List, Optional, Tuple
 import json
