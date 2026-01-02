@@ -14,17 +14,28 @@ then instantiating :class:`~gptuapi.api_client.GptClient`::
     client = GptClient(API_BASE_URL)
     articles, duration = client.chat_completions(["Hello!"])
 
-The submodules ``api_client`` and ``settings`` are re-exported here for
-convenience, so all public objects can be imported directly from
+JSON Mode with validation::
+
+    result, duration = client.chat_completions(
+        prompts=["Give me a person"],
+        response_schema={"type": "object", "required": ["name", "age"]},
+        max_retries=3
+    )
+
+The submodules ``api_client``, ``settings``, and ``validator`` are re-exported
+here for convenience, so all public objects can be imported directly from
 ``gptuapi``.
 """
 
 from .api_client import GptClient
 from .settings import set_api_base_url, API_BASE_URL
+from .validator import extract_json, validate_json, JsonValidationError
 
 __all__ = [
     "GptClient",
     "set_api_base_url",
     "API_BASE_URL",
+    "extract_json",
+    "validate_json",
+    "JsonValidationError",
 ]
-

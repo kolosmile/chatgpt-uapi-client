@@ -9,9 +9,13 @@ description = "Client library for the ChatGPT UI API"
 readme = "README.md"
 requires-python = ">=3.8"
 
+[project.optional-dependencies]
+validation = ["jsonschema>=4.0"]
+
 [tool.setuptools.package-dir]
 "" = "client"
 
 [tool.setuptools.packages.find]
 where = ["client"]
 include = ["gptuapi"]
+
