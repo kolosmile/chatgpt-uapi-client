@@ -12,5 +12,6 @@ requires-python = ">=3.8"
 [project.optional-dependencies]
 validation = ["jsonschema>=4.0"]
 
-[tool.setuptools.packages.find]
-where = ["client"]
+[tool.setuptools]
+package-dir = {"" = "client"}
+packages = ["gptuapi"]
