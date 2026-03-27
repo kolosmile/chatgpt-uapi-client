@@ -8,9 +8,9 @@ and the time taken for the request.
 Supported endpoints
 -------------------
 
-- ``/uia/chat/completions`` – send one or more prompts and receive the
+- ``/api/v1/chat/completions`` – send one or more prompts and receive the
   corresponding text responses.
-- ``/uia/images/generations`` – generate images via the ChatGPT UI.
+- ``/api/v1/chat/images/generations`` – generate images via the ChatGPT UI.
 
 Both endpoints accept a list of prompt strings. A ``chat_url`` parameter may be
 supplied to continue an existing conversation. Methods return a tuple of the
@@ -94,7 +94,7 @@ class GptClient:
         max_retries: int = 3,
         strict: bool = True,
     ) -> Tuple[Union[List, Dict, None], float]:
-        """Call the `/uia/chat/completions` endpoint.
+        """Call the `/api/v1/chat/completions` endpoint.
         
         Args:
             prompts: List of prompt strings to send.
@@ -117,7 +117,7 @@ class GptClient:
             payload = {"prompts": prompts}
             if chat_url is not None:
                 payload["chat_url"] = chat_url
-            response, duration = self._post_json("/uia/chat/completions", payload)
+            response, duration = self._post_json("/api/v1/chat/completions", payload)
             return response.get("articles", []), duration
         
         # JSON mode with validation
@@ -137,7 +137,7 @@ class GptClient:
             if current_chat_url is not None:
                 payload["chat_url"] = current_chat_url
             
-            response, _ = self._post_json("/uia/chat/completions", payload)
+            response, _ = self._post_json("/api/v1/chat/completions", payload)
             articles = response.get("articles", [])
             
             # Update chat_url for subsequent retries (continue conversation)
@@ -181,9 +181,9 @@ class GptClient:
     def image_generations(
         self, prompts: List[str], chat_url: Optional[str] = None
     ) -> Tuple[List, float]:
-        """Call the `/uia/images/generations` endpoint."""
+        """Call the `/api/v1/chat/images/generations` endpoint."""
         payload = {"prompts": prompts}
         if chat_url is not None:
             payload["chat_url"] = chat_url
-        response, duration = self._post_json("/uia/images/generations", payload)
+        response, duration = self._post_json("/api/v1/chat/images/generations", payload)
         return response.get("images", []), duration
